@@ -18,6 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('person', 'PersonController');
-Route::get('list', 'PersonController@list');
-Route::get('person-id/{id}', 'PersonController@show');
 

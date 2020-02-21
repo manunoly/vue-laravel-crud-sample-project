@@ -15,7 +15,11 @@ class PersonController extends Controller
      */
     public function index()
     {
-        return Person::all();
+        try {
+            return Person::all();
+        } catch (Exception $e) {
+            return $this->returnError();
+        }
     }
 
     /**
@@ -48,11 +52,10 @@ class PersonController extends Controller
 
         try {
             $person->save();
+            return 'The person has been added successfully';
         } catch (Exception $e) {
             return $this->returnError();
         }
-
-        return $person;
     }
 
     /**
@@ -63,7 +66,11 @@ class PersonController extends Controller
      */
     public function show($id)
     {
-        return Person::where('id', $id)->first();
+        try {
+            return Person::where('id', $id)->first();
+        } catch (Exception $e) {
+            return $this->returnError();
+        }
     }
 
     /**
@@ -101,7 +108,7 @@ class PersonController extends Controller
 
             try {
                 if ($person->save())
-                    return 'success';
+                    return 'The person has been updated successfully';
             } catch (Exception $e) {
                 return $this->returnError();
             }
@@ -121,7 +128,7 @@ class PersonController extends Controller
         try {
             $person = Person::find($id);
             if ($person && $person->delete())
-                return 'success';
+                return 'The person has been successfully eliminated';
             else
                 return $this->returnError("User not found or can't deleted");
         } catch (Exception $e) {
@@ -136,7 +143,7 @@ class PersonController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function returnError($message = 'Uppss... something wrong')
+    public function returnError($message = 'Uppss... something wrong, please check the data and try again')
     {
         return response()->json([
             'success' => false,
